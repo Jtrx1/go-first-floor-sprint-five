@@ -38,7 +38,6 @@ func (t Training) meanSpeed() float64 {
 		return 0
 	}
 	return t.distance() / t.Duration.Hours()
-	
 
 }
 
@@ -136,9 +135,8 @@ type Walking struct {
 // * 0.029 * вес_спортсмена_в_кг) * время_тренировки_в_часах * мин_в_ч)
 // Это переопределенный метод Calories() из Training.
 func (w Walking) Calories() float64 {
-	return (CaloriesWeightMultiplier*w.Weight + (math.Pow((w.meanSpeed() * float64(KmHInMsec)), 2)/(w.Height / float64(CmInM)))*CaloriesSpeedHeightMultiplier*w.Weight)*w.Duration.Hours() * float64(MinInHours)
+	return (CaloriesWeightMultiplier*w.Weight + (math.Pow((w.meanSpeed()*float64(KmHInMsec)), 2)/(w.Height/float64(CmInM)))*CaloriesSpeedHeightMultiplier*w.Weight) * w.Duration.Hours() * float64(MinInHours)
 }
-
 
 // TrainingInfo возвращает структуру InfoMessage с информацией о проведенной тренировке.
 // Это переопределенный метод TrainingInfo() из Training.
@@ -171,8 +169,7 @@ func (s Swimming) meanSpeed() float64 {
 	if s.Duration == 0 {
 		return 0
 	}
-	return float64(s.LengthPool) * float64(s.CountPool) / MInKm / s.Duration.Hours()
-	
+	return float64(s.LengthPool) * float64(s.CountPool) / float64(MInKm) / s.Duration.Hours()
 
 }
 
@@ -190,10 +187,10 @@ func (s Swimming) Calories() float64 {
 func (s Swimming) TrainingInfo() InfoMessage {
 	// вставьте ваш код ниже
 	return InfoMessage{
-		TrainingType: s.Training.TrainingType,
-		Duration:     s.Training.Duration,
-		Distance:     s.Training.distance(),
-		Speed:        s.Training.meanSpeed(),
+		TrainingType: s.TrainingType,
+		Duration:     s.Duration,
+		Distance:     s.distance(),
+		Speed:        s.meanSpeed(),
 		Calories:     s.Calories(),
 	}
 }
